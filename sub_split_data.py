@@ -74,7 +74,7 @@ if __name__ == "__main__":
     original_splits_dir = os.path.abspath(os.path.join(current_dir, "..", "KeypointNet", "splits"))
     
     # Target percentages for your paper's simulated scarcity scenarios
-    percentage_steps = [50, 25, 10, 5]
+    percentage_steps = [50, 25, 10, 5, 2]
     
     print("Simulating stratified data scarcity based on class prefixes (saving to folders)...")
     for step in percentage_steps:

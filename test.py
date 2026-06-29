@@ -14,7 +14,7 @@ from utils.metrics import get_cd, hungary_iou
 torch.serialization.add_safe_globals([argparse.Namespace])
 
 @click.command()
-@click.option('--checkpoint', type=str, default='runs/keypoint_saliency/version_6/checkpoints/last.ckpt')
+@click.option('--checkpoint', type=str, default='runs/keypoint_saliency/chair/checkpoints/last.ckpt')
 @click.option('--gpus', default=1)
 def run(checkpoint, gpus):
     model = LitModel.load_from_checkpoint(checkpoint).cuda()

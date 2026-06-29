@@ -5,7 +5,7 @@ GENERAL:
 DATA:
   # data path
   anno_dir: ../KeypointNet/annotations/all.json
-  split_root: ../KeypointNet/splits
+  split_root: ../KeypointNet/splits/split_2
   pcd_root: ../KeypointNet/pcds
   # sample
   class_name: airplane
@@ -28,7 +28,7 @@ STRUCTURE:
   dynamic: False
 
 TRAIN:
-  max_epochs: 5
+  max_epochs: 100
   weight_decay: 0.0001
   # batch_size per gpu
   batch_size: 2

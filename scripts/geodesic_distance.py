@@ -43,7 +43,7 @@ if __name__ == '__main__':
     pcd_root = '../KeypointNet/pcds/'
     write_root = '../KeypointNet/pcds/'
     anno_file = '../KeypointNet/annotations/all.json'
-    class_name = 'airplane'
+    class_name = 'bed'
 
     pcd_root = os.path.join(pcd_root, NAMES2ID[class_name])
     write_root = os.path.join(write_root, NAMES2ID[class_name])

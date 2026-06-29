@@ -2,22 +2,28 @@ import tqdm
 import click
 import torch
 import numpy as np
+import argparse
+import trimesh
+import os
 
 from scipy.spatial.distance import cdist
 from pl_model import LitModel
 from data.st_data import KPS_Geodesic_Dataset, NAMES2ID
 from utils.metrics import get_cd, hungary_iou
 
+torch.serialization.add_safe_globals([argparse.Namespace])
+
 @click.command()
-@click.option('--checkpoint', type=str, default='E:/code/keypoint/Saliency_git/runs/keypoint_saliency/version_3/checkpoints/last.ckpt')
+@click.option('--checkpoint', type=str, default='runs/keypoint_saliency/version_6/checkpoints/last.ckpt')
 @click.option('--gpus', default=1)
 def run(checkpoint, gpus):
     model = LitModel.load_from_checkpoint(checkpoint).cuda()
     model.eval()
 
     args = model.hparams.args
-    test_file = 'F:/dataset/keypointnet/splits/test.txt'
-    mesh_root = 'F:/dataset/keypointnet/ShapeNetCore.v2.ply'
+    args.split_root = '../KeypointNet/splits'
+    test_file = 'test.txt'
+    mesh_root = '../KeypointNet/ShapeNetCore.v2.ply'
     class_id = NAMES2ID[args.class_name]
     dataset = KPS_Geodesic_Dataset(args, test_file, False)
 
@@ -32,7 +38,7 @@ def run(checkpoint, gpus):
         pc, heat, mesh_name = dataset[i]
         # mesh
         # print(mesh_name)
-        # mesh = trimesh.load(os.path.join(mesh_root, class_id, mesh_name + '.ply'))
+        mesh = trimesh.load(os.path.join(mesh_root, class_id, mesh_name + '.ply'))
 
         pc = torch.tensor(pc, dtype=torch.float32).unsqueeze(0).cuda()
         heat = torch.tensor(heat, dtype=torch.float32).unsqueeze(0).cuda()
@@ -52,13 +58,13 @@ def run(checkpoint, gpus):
             hmiou[key].append(hiou)
 
         # visualization result
-        # gt_pts = [trimesh.primitives.Sphere(radius=0.02, center=pt).to_mesh() for pt in gts]
-        # for pt in gt_pts:
-        #     pt.visual.vertex_colors = (255, 0, 0, 255)
-        # pred_pts = [trimesh.primitives.Sphere(radius=0.02, center=pt).to_mesh() for pt in pts]
-        # for pt in pred_pts:
-        #     pt.visual.vertex_colors = (0, 255, 0, 255)
-        # trimesh.Scene([mesh] + gt_pts + pred_pts).show()
+        gt_pts = [trimesh.primitives.Sphere(radius=0.02, center=pt).to_mesh() for pt in gts]
+        for pt in gt_pts:
+            pt.visual.vertex_colors = (255, 0, 0, 255)
+        pred_pts = [trimesh.primitives.Sphere(radius=0.02, center=pt).to_mesh() for pt in pts]
+        for pt in pred_pts:
+            pt.visual.vertex_colors = (0, 255, 0, 255)
+        trimesh.Scene([mesh] + gt_pts + pred_pts).show()
 
     for i in range(11):
         key = i * 0.01

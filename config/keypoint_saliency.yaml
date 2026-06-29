@@ -4,11 +4,11 @@ GENERAL:
 
 DATA:
   # data path
-  anno_dir: F:/dataset/keypointnet/annotations/all.json
-  split_root: F:/dataset/keypointnet/splits
-  pcd_root: F:/dataset/keypointnet/pcds
+  anno_dir: ../KeypointNet/annotations/all.json
+  split_root: ../KeypointNet/splits
+  pcd_root: ../KeypointNet/pcds
   # sample
-  class_name: table
+  class_name: airplane
   num_points: 2048
   # augmentation
   augmentation: True
@@ -25,12 +25,13 @@ STRUCTURE:
   global_pool_backbone: avg  # max or avg
   norm: instance
   dropout: 0.
+  dynamic: False
 
 TRAIN:
-  max_epochs: 100
+  max_epochs: 5
   weight_decay: 0.0001
   # batch_size per gpu
-  batch_size: 4
+  batch_size: 2
   load_from_checkpoint:
   resume_from_checkpoint:
 

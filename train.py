@@ -6,6 +6,9 @@ from pl_model import LitModel
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
 
+import torch
+torch.serialization.add_safe_globals([argparse.Namespace])
+
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Tooth Landmark Detection')
@@ -35,7 +38,7 @@ if __name__ == "__main__":
 
     debug = False
     debug_args = {'limit_train_batches': 10} if debug else {}
-    trainer = pl.Trainer(logger, accelerator='gpu', devices=1, max_epochs=args.max_epochs, callbacks=[callback],
+    trainer = pl.Trainer(logger=logger, accelerator='cuda', devices=1, max_epochs=args.max_epochs, callbacks=[callback],
                          **debug_args)
     trainer.fit(model)
 

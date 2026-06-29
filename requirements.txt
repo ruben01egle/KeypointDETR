@@ -1,0 +1,17 @@
+# --- Core Deep Learning & Training ---
+torch>=2.1.0
+pytorch-lightning>=2.1.0
+tensorboard
+
+# --- 3D & Geometric Data Processing ---
+open3d>=0.18.0
+trimesh>=4.0.0
+pyglet<2
+scikit-learn>=1.3.0
+scipy>=1.11.0
+numpy>=1.24.0
+
+# --- CLI & Utilities ---
+click>=8.1.0
+pyyaml>=6.0.0
+tqdm>=4.66.0

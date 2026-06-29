@@ -49,7 +49,7 @@ class FocalLoss(torch.nn.Module):
         pt = F.softmax(predict, dim=1)
         class_mask = F.one_hot(target, self.num_classes)
         ids = target.view(-1, 1)
-        alpha = self.alpha[ids.data.view(-1)].to(predict.device)
+        alpha = self.alpha.to(ids.device)[ids.data.view(-1)].to(predict.device)
         probs = (pt * class_mask).sum(1).view(-1, 1)
         log_p = probs.log()
         loss = -alpha * (torch.pow((1 - probs), self.gamma)) * log_p
